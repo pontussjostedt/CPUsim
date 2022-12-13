@@ -3,6 +3,7 @@ package computer
 final case class UInt8 private (value: Int):
     infix def +(other: UInt8): UInt8 = UInt8(value + other.value)
     infix def -(other: UInt8): UInt8 = UInt8(value - other.value)
+    infix def &(other: UInt8): UInt8 = UInt8(value & other.value)
 
   
 

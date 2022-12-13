@@ -6,6 +6,7 @@ import sGui4s.components.containers.*
 import sGui4s.events.*
 import java.awt.GridLayout
 import scala.Conversion
+import scala.compiletime.ops.boolean
 
 
 object Foo:
@@ -53,6 +54,8 @@ object Foo:
         val stoplightProgram: Vector[Operation | (Address, Operation)] = Vector(
             "START" ->
             OUT(R1),
+            IN(R0),
+            AND("0"*7 + "1", R0),
             CALL("SEQ"),
             B("START"),
 
@@ -79,14 +82,15 @@ object Foo:
             window.render(g2d => for i <- lights.indices do lights(i).draw(0 + i * 200, 0)(using g2d))
 
         def getInput(registers: Vector[UInt8]): UInt8 = 
-            given str2Bool: Conversion[Boolean, String] = if _ then "1" else "0"
+            def boolToBinary(b: Boolean): Char = if b then '1' else '0'
+            println("Reading Input!!")
             val (event, values) = gui.awaitEvent()
-            "000000" + values("Car") + values("Day/Night")
+            "0" * 6 + boolToBinary(values("Car").asInstanceOf[Boolean]) + boolToBinary(values("Day/Night").asInstanceOf[Boolean])
             
             
             
 
-        val cpu = CPU(stoplightProgram, 1000, (reg) => UInt8(4), display)
+        val cpu = CPU(stoplightProgram, 1000, getInput, display)
         
 
         

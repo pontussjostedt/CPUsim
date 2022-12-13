@@ -36,6 +36,9 @@ final case class CPU private (instructions: Vector[Operation], addressLUT: Map[A
             case SUB(data, regIndex) =>
                 register = register.updated(regIndex, register(regIndex) - data)
                 pc+=1
+            case AND(data, regIndex) =>
+                register = register.updated(regIndex, register(regIndex) & data)
+                pc+=1
             case IN(regIndex) => 
                 register = register.updated(regIndex, inputFunction(register))
                 pc += 1
