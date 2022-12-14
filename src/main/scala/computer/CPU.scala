@@ -4,7 +4,7 @@ package computer
 
 
 
-final case class CPU private (instructions: Vector[Operation], addressLUT: Map[Address, RegIndex], waitTimeMillis: Long, inputFunction: (Vector[UInt8]) => UInt8 , outputFunction: (Vector[UInt8], Int) => Unit):
+final case class CPU private (instructions: Vector[Operation], addressLUT: Map[Address, RegIndex], waitTimeNanos: Long, inputFunction: (Vector[UInt8]) => UInt8 , outputFunction: (Vector[UInt8], Int) => Unit):
     println(addressLUT)
     
     val stack = scala.collection.mutable.Stack.empty[Int]
@@ -13,13 +13,14 @@ final case class CPU private (instructions: Vector[Operation], addressLUT: Map[A
 
     def run(): Unit =
         while instructions.indices.contains(pc) do
-            Thread.sleep(waitTimeMillis)
+            val timeDone: Long = System.nanoTime() + waitTimeNanos
             execute(instructions(pc))
+            while(timeDone >= System.nanoTime()) do ()
 
         System.out.println("OUT")
 
     def execute(operation: Operation): Unit =
-        ///println(s"pc = ${pc}, operation = " + operation)
+        
         operation match
             case CALL(address) =>
                 stack.push(pc + 1)
@@ -45,6 +46,9 @@ final case class CPU private (instructions: Vector[Operation], addressLUT: Map[A
             case OUT(regIndex) =>
                 outputFunction(register, pc)
                 pc += 1
+            case DEBUG(message, regIndex) =>
+                println(s"DEBUG: $message, register($regIndex) = ${register(regIndex)}")
+                pc+=1
         
             
         
@@ -61,4 +65,4 @@ object CPU:
             case (op: Operation, index: Int) => instructions(index) = op
             case ((addr: Address, op: Operation), index: Int) => {instructions(index) = op; addressReg += addr -> index}
         }
-        new CPU(instructions.toVector, addressReg.toMap, (1/frequency * 1e3).toLong, inputFunction, outputFunction)
+        new CPU(instructions.toVector, addressReg.toMap, (1/frequency * 1e9).toLong, inputFunction, outputFunction)

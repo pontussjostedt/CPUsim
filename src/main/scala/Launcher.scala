@@ -6,7 +6,7 @@ import sGui4s.components.containers.*
 import sGui4s.events.*
 import java.awt.GridLayout
 import scala.Conversion
-import scala.compiletime.ops.boolean
+import sGui4s.events.Event
 
 
 object Foo:
@@ -55,20 +55,26 @@ object Foo:
             "START" ->
             OUT(R1),
             IN(R0),
-            AND("0"*7 + "1", R0),
-            CALL("SEQ"),
-            B("START"),
+            AND(1, R0),
+            BZ("SEQ", R0),
+            LD("000100", R1),
+            IN(R0),
+            AND("10" , R0),
+            DEBUG("After check for car", R0),
+            BZ("START", R0),
+            B("SEQ"),
 
+            
             "SEQ" ->
-            LD("001100", 1), CALL("SLEEP"),
-            LD("001010", 1), CALL("SLEEP"),
-            LD("001001", 1), CALL("SLEEP"),
-            LD("011001", 1), CALL("SLEEP"),
-            LD("100001", 1), CALL("SLEEP"),
-            LD("010001", 1), CALL("SLEEP"),
-            LD("001001", 1), CALL("SLEEP"),
-            LD("001011", 1), CALL("SLEEP"),
-            RET(),
+            LD("001100", R1), CALL("SLEEP"),
+            LD("001010", R1), CALL("SLEEP"),
+            LD("001001", R1), CALL("SLEEP"),
+            LD("011001", R1), CALL("SLEEP"),
+            LD("100001", R1), CALL("SLEEP"),
+            LD("010001", R1), CALL("SLEEP"),
+            LD("001001", R1), CALL("SLEEP"),
+            LD("001011", R1), CALL("SLEEP"),
+            B("START"),
 
             "SLEEP" -> OUT(R1), LD(0, R0),
             "LOOP" -> ADD(1, R0),
@@ -78,14 +84,18 @@ object Foo:
         )
         def display(registers: Vector[UInt8], pc: Int): Unit =
             val lights = TrafficLight.pairFromDigit(registers(1).value)
-            println(lights)
+            //println(lights)
             window.render(g2d => for i <- lights.indices do lights(i).draw(0 + i * 200, 0)(using g2d))
 
         def getInput(registers: Vector[UInt8]): UInt8 = 
             def boolToBinary(b: Boolean): Char = if b then '1' else '0'
             println("Reading Input!!")
-            val (event, values) = gui.awaitEvent()
-            "0" * 6 + boolToBinary(values("Car").asInstanceOf[Boolean]) + boolToBinary(values("Day/Night").asInstanceOf[Boolean])
+            val values = gui.getEventOrElseValues() match
+                case (event: Event, values: Map[String, Any]) => values
+                case values: Map[String, Any] => values
+            val out: UInt8 = "0" * 6 + boolToBinary(values("Car").asInstanceOf[Boolean]) + boolToBinary(values("Day/Night").asInstanceOf[Boolean])
+            println(out)
+            out
             
             
             

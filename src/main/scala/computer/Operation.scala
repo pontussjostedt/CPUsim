@@ -17,5 +17,6 @@ case class AND(data: UInt8, regIndex: RegIndex) extends Operation
 
 case class IN(regIndex: RegIndex) extends Operation
 case class OUT(regIndex: RegIndex) extends Operation
+case class DEBUG(message: String, regIndex: RegIndex) extends  Operation
    
 
