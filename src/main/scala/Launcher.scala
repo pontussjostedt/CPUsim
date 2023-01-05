@@ -19,6 +19,13 @@ object Foo:
         )
     @main
     def bob(): Unit =
+        case class Person(hello: String)
+        
+        val p = Some("hallå")
+        p match
+            case Some(value) => println(value)
+            case _ =>
+        
         val R0: RegIndex = 0
         val R1: RegIndex = 1
         given int2Int8: Conversion[Int, UInt8] = UInt8.noOverflow(_)
@@ -28,7 +35,9 @@ object Foo:
             "START" -> 
             OUT(R1),
             IN(R0),
-            SUB(12, R0),
+            AND("1100", R0),
+            SUB("1100", R0),
+
             BZ("MIDDLE-STATE", R0),
             B("START"),
 
@@ -37,9 +46,9 @@ object Foo:
             "MIDDLE-STATE" -> 
             IN(R0),
             SUB(4, R0),
-            BZ("ADD", R0),
-            SUB(4, R0),
             BZ("SUBTRACT", R0),
+            SUB(4, R0),
+            BZ("ADD", R0),
             B("MIDDLE-STATE"),
 
             
@@ -60,7 +69,6 @@ object Foo:
             LD("000100", R1),
             IN(R0),
             AND("10" , R0),
-            DEBUG("After check for car", R0),
             BZ("START", R0),
             B("SEQ"),
 
