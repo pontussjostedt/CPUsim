@@ -18,14 +18,7 @@ object Foo:
             )
         )
     @main
-    def bob(): Unit =
-        case class Person(hello: String)
-        
-        val p = Some("hallå")
-        p match
-            case Some(value) => println(value)
-            case _ =>
-        
+    def main(): Unit =
         val R0: RegIndex = 0
         val R1: RegIndex = 1
         given int2Int8: Conversion[Int, UInt8] = UInt8.noOverflow(_)
@@ -97,7 +90,6 @@ object Foo:
 
         def getInput(registers: Vector[UInt8]): UInt8 = 
             def boolToBinary(b: Boolean): Char = if b then '1' else '0'
-            println("Reading Input!!")
             val values = gui.getEventOrElseValues() match
                 case (event: Event, values: Map[String, Any]) => values
                 case values: Map[String, Any] => values

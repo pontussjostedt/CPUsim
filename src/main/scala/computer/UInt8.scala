@@ -23,5 +23,5 @@ object UInt8:
     val validRange: Range = 0 to 255
     def apply(value: Int): UInt8 = new UInt8((value + 256) % 256)
     def noOverflow(value: Int): UInt8 =
-        assert(!validRange.contains(validRange), "IntegerOverflow")
+        assert(validRange.contains(value), "IntegerOverflow")
         new UInt8(value)

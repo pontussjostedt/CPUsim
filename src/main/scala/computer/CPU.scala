@@ -7,7 +7,15 @@ import java.io.FileWriter
 
 
 
-
+/**
+  * 
+  *
+  * @param instructions Array of operations to be executed, representing the program memory of the CPU
+  * @param addressLUT A map readable line name -> lineindex
+  * @param waitTimeNanos min time between operations
+  * @param inputFunction used to get input when calling IN
+  * @param outputFunction used to display out
+  */
 final case class CPU private (instructions: Vector[Operation], addressLUT: Map[Address, RegIndex], waitTimeNanos: Long, inputFunction: (Vector[UInt8]) => UInt8 , outputFunction: (Vector[UInt8], Int) => Unit):
     println(addressLUT)
     
@@ -64,6 +72,10 @@ final case class CPU private (instructions: Vector[Operation], addressLUT: Map[A
 
 
 object CPU:
+    /**
+      * Constructor for CPU
+      * @return CPU loaded with program
+      */
     def apply(program: Vector[Operation | (Address, Operation)], frequency: Float, inputFunction: (Vector[UInt8]) => UInt8, outputFunction: (Vector[UInt8], Int) => Unit): CPU =
         val addressReg = scala.collection.mutable.Map.empty[Address, RegIndex]
         val instructions = Array.ofDim[Operation](program.length);
@@ -74,6 +86,10 @@ object CPU:
         dumpCode(instructions, addressReg.toMap)
         new CPU(instructions.toVector, addressReg.toMap, (1/frequency * 1e9).toLong, inputFunction, outputFunction)
 
+    /**
+     *  Dumps code into a file which can then be loaded onto the FPGA cpu
+     * this method is a mess :)
+    */
     def dumpCode(operations: Array[Operation], addresses: Map[Address, Int]): Unit = 
         def empty = "0" * 9
         val file = new File("out.hex")
