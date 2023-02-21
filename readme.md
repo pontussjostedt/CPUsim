@@ -1,8 +1,8 @@
-<h1>CPUSimulator</h1>
+#CPUSimulator
 Program used to simulate code for mini CPU built on an FPGA.
 
 
-<h2>Example program</h2>
+##Example program
 ```scala
 val exampleProgram: Vector[Operation | (Address, Operation)] = Vector(
             "START" -> 
@@ -35,11 +35,11 @@ val exampleProgram: Vector[Operation | (Address, Operation)] = Vector(
 ```
 
 see main for more details
-<h2>How to use</h2>
+##How to use
 1. clone repo
 2. make sure you have sbt and scala 3.0 or later installed on your machine
 3. sbt run
 
-<h2> Dependency </h2>
+##Dependency
 sgui4s-alpha.jar - https://github.com/pontussjostedt/scalaSimpleGUI
 Quick minimal swing GUI generator
