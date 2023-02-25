@@ -41,5 +41,5 @@ see main for more details
 3. sbt run
 
 ##Dependency
-sgui4s-alpha.jar - https://github.com/pontussjostedt/scalaSimpleGUI
+sgui4s-alpha.jar - https://github.com/pontussjostedt/scalaSimpleGUI (This is a work in progress refactored version of the one used here which lacks a lot core features).
 Quick minimal swing GUI generator
