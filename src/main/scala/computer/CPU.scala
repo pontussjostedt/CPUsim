@@ -100,7 +100,7 @@ object CPU:
             val out = Integer.toBinaryString(v.value)
             "0" * (8 - out.length()) + out
         operations.map {
-                case DEBUG(message, regIndex) => throw Exception("Yeah theres a problem dumb dumb :)")
+                case DEBUG(message, regIndex) => throw Exception("Real world CPU does not support Debug")
                 case RET() => "0010" + empty -> "Ret"
                 case IN(regIndex) => "1000" + d(regIndex) + "0" * 8 -> "In"
                 case SUB(data, regIndex) => "0110" + d(regIndex) + uint2str(data) -> "Sub"
