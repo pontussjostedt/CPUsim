@@ -35,11 +35,11 @@ val exampleProgram: Vector[Operation | (Address, Operation)] = Vector(
 ```
 
 see main for more details
-##How to use
+## How to use
 1. clone repo
 2. make sure you have sbt and scala 3.0 or later installed on your machine
 3. sbt run
 
-##Dependency
-sgui4s-alpha.jar - https://github.com/pontussjostedt/scalaSimpleGUI (This is a work in progress refactored version of the one used here which lacks a lot core features).
+## Dependency
+sgui4s-alpha.jar - [scalaSimpleGUI](https://github.com/pontussjostedt/scalaSimpleGUI) (This is a work in progress refactored version of the one used here which lacks a lot core features).
 Quick minimal swing GUI generator
