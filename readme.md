@@ -1,8 +1,8 @@
-#CPUSimulator
+# CPUSimulator
 Program used to simulate code for mini CPU built on an FPGA.
 
 
-##Example program
+## Example program
 ```scala
 val exampleProgram: Vector[Operation | (Address, Operation)] = Vector(
             "START" -> 
